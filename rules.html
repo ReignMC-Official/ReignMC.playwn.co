@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rules — ReignMC</title>
+<meta name="description" content="ReignMC server rules — general conduct, building & claims, Towny & nations, PvP & raiding, chat, economy, and punishment tiers.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void: #0a0710;
+    --void-2: #120a1c;
+    --rift-purple: #6a2fb8;
+    --gold: #e8b84c;
+    --gold-pale: #f3d998;
+    --crimson: #7a1f3d;
+    --parchment: #ece2cc;
+    --parchment-dim: #a89a84;
+    --line: rgba(232,184,76,0.18);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--void);
+    color: var(--parchment);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.65;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+  }
+  a { color: inherit; text-decoration: none; }
+  ::selection { background: var(--rift-purple); color: var(--gold-pale); }
+  :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+  .bg-field {
+    position: fixed; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 900px 600px at 15% -10%, rgba(106,47,184,0.28), transparent 60%),
+      radial-gradient(ellipse 800px 700px at 100% 20%, rgba(232,184,76,0.08), transparent 55%),
+      var(--void);
+    pointer-events: none;
+  }
+
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(10,7,16,0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav {
+    max-width: 1180px; margin: 0 auto; padding: 18px 28px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .brand {
+    font-family: 'Cinzel', serif; font-weight: 700; font-size: 1.25rem; letter-spacing: 0.06em;
+    background: linear-gradient(120deg, var(--gold-pale), var(--gold) 40%, var(--rift-purple) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .nav-links { display: flex; gap: 32px; font-size: 0.92rem; color: var(--parchment-dim); }
+  .nav-links a:hover { color: var(--gold-pale); }
+  .nav-cta {
+    padding: 9px 20px; border: 1px solid var(--gold); border-radius: 2px;
+    font-size: 0.85rem; font-weight: 600; color: var(--gold-pale);
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .nav-cta:hover { background: var(--gold); color: var(--void); }
+  @media (max-width: 760px) { .nav-links { display: none; } }
+
+  .page-head {
+    position: relative; z-index: 2; max-width: 900px; margin: 0 auto; padding: 80px 28px 40px; text-align: center;
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: 'Cinzel', serif; font-size: 0.72rem; letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 24px;
+  }
+  .eyebrow::before, .eyebrow::after { content: ''; width: 28px; height: 1px; background: var(--gold); opacity: 0.6; }
+  h1.title {
+    font-family: 'Cinzel', serif; font-weight: 900; font-size: clamp(2rem, 5vw, 3.4rem);
+    background: linear-gradient(100deg, var(--parchment) 0%, var(--gold-pale) 40%, var(--gold) 70%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    margin-bottom: 18px;
+  }
+  .page-lede {
+    font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.2rem; color: var(--parchment-dim);
+  }
+
+  .rules-layout {
+    position: relative; z-index: 2; max-width: 1180px; margin: 0 auto; padding: 20px 28px 100px;
+    display: grid; grid-template-columns: 240px 1fr; gap: 56px;
+  }
+  @media (max-width: 900px) { .rules-layout { grid-template-columns: 1fr; } }
+
+  .toc {
+    position: sticky; top: 100px; align-self: start;
+    border-left: 1px solid var(--line);
+    padding-left: 20px;
+  }
+  .toc-label {
+    font-family: 'Cinzel', serif; font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 14px; display: block;
+  }
+  .toc a {
+    display: block; font-size: 0.88rem; color: var(--parchment-dim); padding: 7px 0;
+    transition: color 0.2s ease, padding-left 0.2s ease;
+  }
+  .toc a:hover { color: var(--gold-pale); padding-left: 4px; }
+  @media (max-width: 900px) {
+    .toc { position: static; border-left: none; padding-left: 0; border-bottom: 1px solid var(--line); padding-bottom: 20px; margin-bottom: 10px; }
+  }
+
+  .articles { display: flex; flex-direction: column; gap: 0; }
+  article.rule-section {
+    padding: 44px 0;
+    border-bottom: 1px solid var(--line);
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  article.rule-section.in-view { opacity: 1; transform: translateY(0); }
+  article.rule-section:first-child { padding-top: 0; }
+  article.rule-section:last-child { border-bottom: none; }
+
+  .rule-num {
+    font-family: 'Cinzel', serif; font-size: 0.72rem; letter-spacing: 0.16em; color: var(--gold);
+    display: block; margin-bottom: 10px;
+  }
+  article.rule-section h2 {
+    font-family: 'Cinzel', serif; font-size: 1.5rem; color: var(--parchment); margin-bottom: 18px;
+  }
+  .rule-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .rule-list li {
+    padding-left: 22px; position: relative; font-size: 0.95rem; color: var(--parchment-dim);
+  }
+  .rule-list li::before {
+    content: '◆'; position: absolute; left: 0; top: 2px; font-size: 0.55rem; color: var(--rift-purple);
+    filter: brightness(1.7) saturate(1.3);
+  }
+  .rule-list li strong { color: var(--parchment); font-weight: 600; }
+  .rule-note {
+    margin-top: 18px; padding: 14px 18px; border-left: 2px solid var(--gold);
+    background: rgba(232,184,76,0.05); font-size: 0.88rem; color: var(--parchment-dim);
+  }
+
+  .tier-table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 0.9rem; }
+  .tier-table th, .tier-table td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+  .tier-table th { font-family: 'Cinzel', serif; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); }
+  .tier-table td { color: var(--parchment-dim); }
+  .tier-table td.severity-1 { color: var(--gold-pale); }
+  .tier-table td.severity-3 { color: #d9748f; }
+
+  footer {
+    position: relative; z-index: 2; border-top: 1px solid var(--line);
+    padding: 44px 28px 36px; text-align: center;
+  }
+  footer .brand { display: block; margin-bottom: 10px; }
+  footer .links { display: flex; gap: 24px; justify-content: center; margin-bottom: 18px; font-size: 0.85rem; color: var(--parchment-dim); flex-wrap: wrap; }
+  footer .links a:hover { color: var(--gold-pale); }
+  footer .fine { font-size: 0.76rem; color: var(--parchment-dim); opacity: 0.7; }
+</style>
+</head>
+<body>
+
+<div class="bg-field"></div>
+
+<header>
+  <nav>
+    <span class="brand">REIGNMC</span>
+    <div class="nav-links">
+      <a href="index.html#world">The World</a>
+      <a href="index.html#features">Systems</a>
+      <a href="index.html#lore">Lore</a>
+      <a href="rules.html">Rules</a>
+      <a href="store.html">Store</a>
+      <a href="http://reignmc-map.playwn.co:5521" target="_blank" rel="noopener">Map</a>
+    </div>
+    <a class="nav-cta" href="index.html#join">Join Now</a>
+  </nav>
+</header>
+
+<div class="page-head">
+  <span class="eyebrow">The Law of the Reign</span>
+  <h1 class="title">Server Rules</h1>
+  <p class="page-lede">Every nation needs a foundation. This is ours — read it before you claim your first plot.</p>
+</div>
+
+<div class="rules-layout">
+
+  <nav class="toc" aria-label="Rule sections">
+    <span class="toc-label">Sections</span>
+    <a href="#general-conduct">I. General Conduct</a>
+    <a href="#building-claims">II. Building &amp; Claims</a>
+    <a href="#towny-nations">III. Towny &amp; Nations</a>
+    <a href="#pvp-raiding">IV. PvP &amp; Raiding</a>
+    <a href="#chat-communication">V. Chat &amp; Communication</a>
+    <a href="#economy-trading">VI. Economy &amp; Trading</a>
+    <a href="#punishment-tiers">VII. Punishment Tiers</a>
+  </nav>
+
+  <div class="articles">
+
+    <article class="rule-section" id="general-conduct">
+      <span class="rule-num">Section I</span>
+      <h2>General Conduct</h2>
+      <ul class="rule-list">
+        <li><strong>No hacked clients or exploits.</strong> X-ray texture packs, kill-aura, fly hacks, and duplication bugs are bannable regardless of intent.</li>
+        <li><strong>No harassment or hate speech.</strong> Zero tolerance for slurs, targeted harassment, or discriminatory content in any channel — in-game or Discord.</li>
+        <li><strong>No real-world doxxing or threats.</strong> Sharing someone's personal information or threatening real-world harm results in an immediate permanent ban.</li>
+        <li><strong>Respect staff decisions.</strong> Appeals go through the proper channel — arguing with staff in public chat won't overturn anything.</li>
+        <li><strong>One account per player</strong> unless a staff member has approved an alt for a specific reason.</li>
+      </ul>
+      <div class="rule-note">Staff reserve the right to act on conduct that damages the community even if it isn't explicitly listed here.</div>
+    </article>
+
+    <article class="rule-section" id="building-claims">
+      <span class="rule-num">Section II</span>
+      <h2>Building &amp; Claims</h2>
+      <ul class="rule-list">
+        <li><strong>Claim before you build.</strong> Unclaimed builds outside town limits can be broken down without warning.</li>
+        <li><strong>No griefing inside claims.</strong> If Towny protection is blocking you, that's the system working as intended — find another plot.</li>
+        <li><strong>No offensive builds.</strong> Structures depicting hate symbols, slurs, or explicit content will be removed and may result in a ban.</li>
+        <li><strong>Lag-inducing builds</strong> (large redstone farms, entity-heavy contraptions) may be asked to be modified or relocated if they impact server performance.</li>
+        <li><strong>Abandoned claims</strong> (no login for 60+ days) may be reclaimed by the town or released back to the wild.</li>
+      </ul>
+    </article>
+
+    <article class="rule-section" id="towny-nations">
+      <span class="rule-num">Section III</span>
+      <h2>Towny &amp; Nations</h2>
+      <ul class="rule-list">
+        <li><strong>Mayors are responsible</strong> for their town's residents. Repeated rule violations by residents reflect on town standing.</li>
+        <li><strong>Nation wars must be declared</strong> through the proper Towny war mechanic — no sneak-attacking allies mid-truce.</li>
+        <li><strong>No exploiting town claim mechanics</strong> to surround or lock out another town from expansion unfairly.</li>
+        <li><strong>Diplomacy is binding.</strong> Alliances and treaties formed in-game are expected to be honored; breaking one isn't a bannable offense, but it's fair game for other nations to respond to in-character.</li>
+      </ul>
+    </article>
+
+    <article class="rule-section" id="pvp-raiding">
+      <span class="rule-num">Section IV</span>
+      <h2>PvP &amp; Raiding</h2>
+      <ul class="rule-list">
+        <li><strong>PvP is enabled</strong> outside of spawn and designated safe zones (Elysian is always neutral ground).</li>
+        <li><strong>Raiding requires an active war declaration</strong> against the target nation — raiding without one is treated as griefing.</li>
+        <li><strong>No spawn killing or safe-zone camping</strong> to bait players out of protected areas.</li>
+        <li><strong>Combat logging</strong> (disconnecting to avoid a fight) may result in a temporary PvP-related restriction.</li>
+      </ul>
+    </article>
+
+    <article class="rule-section" id="chat-communication">
+      <span class="rule-num">Section V</span>
+      <h2>Chat &amp; Communication</h2>
+      <ul class="rule-list">
+        <li><strong>English only in global chat</strong> so staff can moderate effectively; other languages are fine in DMs or town chat.</li>
+        <li><strong>No spamming, advertising, or excessive caps.</strong></li>
+        <li><strong>No impersonating staff</strong> or claiming false authority in chat.</li>
+        <li><strong>Keep political and religious debate out of public channels</strong> — take it to DMs if you want to discuss it.</li>
+      </ul>
+    </article>
+
+    <article class="rule-section" id="economy-trading">
+      <span class="rule-num">Section VI</span>
+      <h2>Economy &amp; Trading</h2>
+      <ul class="rule-list">
+        <li><strong>No real-money trading</strong> for in-game currency, items, or claims outside of the official store.</li>
+        <li><strong>Scamming another player in a trade</strong> is bannable if proven (screenshots/logs required for a report).</li>
+        <li><strong>Duping items or currency</strong> through any bug is an instant permanent ban, no warning.</li>
+        <li><strong>Shop price manipulation</strong> designed to exploit market mechanics may be reversed by staff.</li>
+      </ul>
+    </article>
+
+    <article class="rule-section" id="punishment-tiers">
+      <span class="rule-num">Section VII</span>
+      <h2>Punishment Tiers</h2>
+      <p style="color:var(--parchment-dim); font-size:0.92rem; margin-bottom:8px;">Punishments scale with severity and history. Staff may skip tiers for serious first offenses (hacking, doxxing, duping).</p>
+      <table class="tier-table">
+        <thead>
+          <tr><th>Tier</th><th>Example</th><th>Typical Action</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="severity-1">Tier 1</td><td>Spam, minor chat disrespect, caps abuse</td><td>Warning → short mute</td></tr>
+          <tr><td>Tier 2</td><td>Repeated Tier 1, minor griefing, unclaimed build destruction</td><td>Temp mute/ban, restitution</td></tr>
+          <tr><td class="severity-3">Tier 3</td><td>Hacked clients, duping, doxxing, hate speech</td><td>Permanent ban</td></tr>
+        </tbody>
+      </table>
+    </article>
+
+  </div>
+</div>
+
+<footer>
+  <span class="brand">REIGNMC</span>
+  <div class="links">
+    <a href="index.html">Home</a>
+    <a href="store.html">Store</a>
+    <a href="http://reignmc-map.playwn.co:5521" target="_blank" rel="noopener">Live Map</a>
+    <a href="https://discord.gg/" target="_blank" rel="noopener">Discord</a>
+  </div>
+  <p class="fine">ReignMC is an independent community server and is not affiliated with Mojang or Microsoft.</p>
+</footer>
+
+<script>
+  (function () {
+    const targets = document.querySelectorAll('.rule-section');
+    if (!('IntersectionObserver' in window)) {
+      targets.forEach(t => t.classList.add('in-view'));
+      return;
+    }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
+    targets.forEach(t => io.observe(t));
+  })();
+</script>
+
+</body>
+</html>
