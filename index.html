@@ -80,9 +80,40 @@
     stroke: var(--gold);
     stroke-width: 1.4;
     fill: none;
-    opacity: 0.55;
+    opacity: 0;
     filter: drop-shadow(0 0 6px rgba(232,184,76,0.35));
+    stroke-dasharray: 1400;
+    stroke-dashoffset: 1400;
+    transition: stroke-dashoffset 1.6s cubic-bezier(0.65,0,0.35,1), opacity 0.6s ease;
   }
+  .fracture.in-view path { opacity: 0.55; stroke-dashoffset: 0; }
+
+  /* ---------- scroll reveal ---------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(26px);
+    transition: opacity 0.75s ease, transform 0.75s ease;
+  }
+  .reveal.in-view { opacity: 1; transform: translateY(0); }
+  .reveal-stagger.in-view { transition-delay: calc(var(--i, 0) * 90ms); }
+
+  /* ---------- hero load-in ---------- */
+  @keyframes riseIn {
+    from { opacity: 0; transform: translateY(22px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero .eyebrow { animation: riseIn 0.8s ease both; }
+  .hero .title { animation: riseIn 0.9s ease 0.12s both; }
+  .hero .subtitle { animation: riseIn 0.9s ease 0.24s both; }
+  .hero .hero-ctas { animation: riseIn 0.9s ease 0.36s both; }
+  .hero .ip-strip { animation: riseIn 0.9s ease 0.48s both; }
+
+  /* ---------- ambient hero glow drift ---------- */
+  @keyframes driftGlow {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-2%, 2%) scale(1.05); }
+  }
+  .bg-field { animation: driftGlow 22s ease-in-out infinite; }
 
   /* ---------- nav ---------- */
   header {
@@ -356,6 +387,14 @@
     margin: 0 auto 20px;
     line-height: 1.5;
   }
+  .lore-banner .lock-glyph {
+    display: block;
+    font-size: 1.4rem;
+    color: var(--rift-purple);
+    filter: brightness(1.7) saturate(1.4);
+    margin-bottom: 22px;
+    opacity: 0.85;
+  }
   .lore-banner cite {
     font-family: 'Inter', sans-serif;
     font-style: normal;
@@ -404,7 +443,7 @@
       <a href="#lore">Lore</a>
       <a href="rules.html">Rules</a>
       <a href="store.html">Store</a>
-      <a href="https://reignmc-map.playwn.co" target="_blank" rel="noopener">Map</a>
+      <a href="http://reignmc-map.playwn.co:5521" target="_blank" rel="noopener">Map</a>
     </div>
     <a class="nav-cta" href="#join">Join Now</a>
   </nav>
@@ -423,7 +462,7 @@
     </div>
     <div class="ip-strip">
       <span class="label">Server IP</span>
-      <span class="value" id="ip-text">play.reignmc.playwn.co</span>
+      <span class="value" id="ip-text">ReignMC.playwn.co</span>
       <button class="copy-btn" onclick="copyIP()" id="copy-btn">Copy</button>
     </div>
   </section>
@@ -436,21 +475,21 @@
 
   <!-- WORLD / CONTINENTS -->
   <section id="world">
-    <div class="section-head">
+    <div class="section-head reveal">
       <span class="section-eyebrow">The Shattered Realm</span>
       <h2 class="section-title">Nine Continents, One Fracture</h2>
       <p class="section-lede">Every biome on Aegrath still carries the scar of the Sundering — climates thrown together, ley lines exposed, borders that no longer make sense. That's where your nation begins.</p>
     </div>
     <div class="continent-grid">
-      <div class="continent"><span class="num">I</span><h3>Frostheim</h3><p>Glacial highlands where the cold itself feels deliberate, like the world is still flinching.</p></div>
-      <div class="continent"><span class="num">II</span><h3>Verdantium</h3><p>Overgrown lowlands and river valleys — the most contested farmland on the map.</p></div>
-      <div class="continent"><span class="num">III</span><h3>Ashenwaste</h3><p>Scorched flats and cracked earth, closest to where the rift first tore open.</p></div>
-      <div class="continent"><span class="num">IV</span><h3>Aurelian Deserts</h3><p>Golden dunes hiding buried ruins from before the Sundering split the world apart.</p></div>
-      <div class="continent"><span class="num">V</span><h3>Stonehelm</h3><p>Mountain holds and fortress towns, built by nations who trust walls over words.</p></div>
-      <div class="continent"><span class="num">VI</span><h3>Corvus Reach</h3><p>Windswept coastlines and cliffside settlements watching the horizon for what comes next.</p></div>
-      <div class="continent"><span class="num">VII</span><h3>Zaharin Jungles</h3><p>Dense, humid, and largely unmapped — the frontier for nations still expanding.</p></div>
-      <div class="continent"><span class="num">VIII</span><h3>Morgrim Marshes</h3><p>Wetlands thick with fog and older magic than most players ever go looking for.</p></div>
-      <div class="continent"><span class="num">IX</span><h3>Elysian</h3><p>The neutral spawn realm — untouched ground where every reign begins equal.</p></div>
+      <div class="continent reveal reveal-stagger" style="--i:0"><span class="num">I</span><h3>Frostheim</h3><p>Glacial highlands where the cold itself feels deliberate, like the world is still flinching.</p></div>
+      <div class="continent reveal reveal-stagger" style="--i:1"><span class="num">II</span><h3>Verdantium</h3><p>Overgrown lowlands and river valleys — the most contested farmland on the map.</p></div>
+      <div class="continent reveal reveal-stagger" style="--i:2"><span class="num">III</span><h3>Ashenwaste</h3><p>Scorched flats and cracked earth, closest to where the rift first tore open.</p></div>
+      <div class="continent reveal reveal-stagger" style="--i:3"><span class="num">IV</span><h3>Aurelian Deserts</h3><p>Golden dunes hiding buried ruins from before the Sundering split the world apart.</p></div>
+      <div class="continent reveal reveal-stagger" style="--i:4"><span class="num">V</span><h3>Stonehelm</h3><p>Mountain holds and fortress towns, built by nations who trust walls over words.</p></div>
+      <div class="continent reveal reveal-stagger" style="--i:5"><span class="num">VI</span><h3>Corvus Reach</h3><p>Windswept coastlines and cliffside settlements watching the horizon for what comes next.</p></div>
+      <div class="continent reveal reveal-stagger" style="--i:6"><span class="num">VII</span><h3>Zaharin Jungles</h3><p>Dense, humid, and largely unmapped — the frontier for nations still expanding.</p></div>
+      <div class="continent reveal reveal-stagger" style="--i:7"><span class="num">VIII</span><h3>Morgrim Marshes</h3><p>Wetlands thick with fog and older magic than most players ever go looking for.</p></div>
+      <div class="continent reveal reveal-stagger" style="--i:8"><span class="num">IX</span><h3>Elysian</h3><p>The neutral spawn realm — untouched ground where every reign begins equal.</p></div>
     </div>
   </section>
 
@@ -462,13 +501,13 @@
 
   <!-- FEATURES -->
   <section id="features">
-    <div class="section-head">
+    <div class="section-head reveal">
       <span class="section-eyebrow">Built for Nations, Not Solo Players</span>
       <h2 class="section-title">Every System Serves the Reign</h2>
       <p class="section-lede">Towny politics, RPG progression, and a live economy layered together — none of it bolted on as an afterthought.</p>
     </div>
     <div class="feature-row">
-      <div class="feature">
+      <div class="feature reveal reveal-stagger" style="--i:0">
         <div class="glyph">T</div>
         <h3>Towny Nations</h3>
         <p>Found towns, form nations, and wage real diplomacy — alliances and rivalries that shape the map over time.</p>
@@ -493,9 +532,10 @@
 
   <!-- LORE BANNER -->
   <section id="lore" style="padding:0;">
-    <div class="lore-banner">
-      <blockquote>"The world did not break evenly. Some were given mountains to hide behind. Others were given only the crack itself, and had to build on that."</blockquote>
-      <cite>— Fragment recovered near the Sundering Star</cite>
+    <div class="lore-banner reveal">
+      <span class="lock-glyph">◆</span>
+      <blockquote>The truth of the First Sundering is still buried. It surfaces only once enough of you are standing on Aegrath at once.</blockquote>
+      <cite>Full lore unlocks at a set active-player threshold — check back as the server grows</cite>
     </div>
   </section>
 
@@ -507,7 +547,7 @@
 
   <!-- JOIN -->
   <section id="join">
-    <div class="join-panel">
+    <div class="join-panel reveal">
       <span class="section-eyebrow">Beta Is Live</span>
       <h2 class="section-title">Claim Your Ground on Aegrath</h2>
       <p class="section-lede">Founding players shape the first nations on the map. Bring your crew, drop a claim, and see how far you can build before the next lore event hits.</p>
@@ -525,13 +565,30 @@
   <div class="links">
     <a href="rules.html">Rules</a>
     <a href="store.html">Store</a>
-    <a href="https://reignmc-map.playwn.co" target="_blank" rel="noopener">Live Map</a>
+    <a href="http://reignmc-map.playwn.co:5521" target="_blank" rel="noopener">Live Map</a>
     <a href="https://discord.gg/" target="_blank" rel="noopener">Discord</a>
   </div>
   <p class="fine">ReignMC is an independent community server and is not affiliated with Mojang or Microsoft.</p>
 </footer>
 
 <script>
+  (function () {
+    const targets = document.querySelectorAll('.reveal, .fracture');
+    if (!('IntersectionObserver' in window)) {
+      targets.forEach(t => t.classList.add('in-view'));
+      return;
+    }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+    targets.forEach(t => io.observe(t));
+  })();
+
   function copyIP() {
     const ip = document.getElementById('ip-text').textContent;
     const btn = document.getElementById('copy-btn');
@@ -547,4 +604,3 @@
 
 </body>
 </html>
-
