@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ — ReignMC</title>
+<meta name="description" content="Frequently asked questions about ReignMC.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void: #0a0710; --void-2: #120a1c;
+    --rift-purple: #6a2fb8; --gold: #e8b84c; --gold-pale: #f3d998;
+    --parchment: #ece2cc; --parchment-dim: #a89a84; --line: rgba(232,184,76,0.18);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--void); color: var(--parchment); font-family: 'Inter', sans-serif; line-height: 1.6; }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  }
+  a { color: inherit; text-decoration: none; }
+  :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+  .bg-field {
+    position: fixed; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 900px 600px at 15% -10%, rgba(106,47,184,0.28), transparent 60%),
+      radial-gradient(ellipse 800px 700px at 100% 20%, rgba(232,184,76,0.08), transparent 55%),
+      var(--void);
+  }
+
+  header { position: sticky; top: 0; z-index: 50; background: rgba(10,7,16,0.8); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  nav { max-width: 1180px; margin: 0 auto; padding: 18px 28px; display: flex; align-items: center; justify-content: space-between; }
+  .brand {
+    font-family: 'Cinzel', serif; font-weight: 700; font-size: 1.25rem; letter-spacing: 0.06em;
+    background: linear-gradient(120deg, var(--gold-pale), var(--gold) 40%, var(--rift-purple) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .nav-links { display: flex; gap: 26px; font-size: 0.9rem; color: var(--parchment-dim); }
+  .nav-links a:hover { color: var(--gold-pale); }
+  .nav-cta { padding: 9px 20px; border: 1px solid var(--gold); border-radius: 2px; font-size: 0.85rem; font-weight: 600; color: var(--gold-pale); transition: background 0.2s ease, color 0.2s ease; }
+  .nav-cta:hover { background: var(--gold); color: var(--void); }
+  @media (max-width: 820px) { .nav-links { display: none; } }
+
+  .page-head { position: relative; z-index: 2; max-width: 900px; margin: 0 auto; padding: 80px 28px 50px; text-align: center; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: 'Cinzel', serif; font-size: 0.72rem; letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 24px;
+  }
+  .eyebrow::before, .eyebrow::after { content: ''; width: 28px; height: 1px; background: var(--gold); opacity: 0.6; }
+  h1.title {
+    font-family: 'Cinzel', serif; font-weight: 900; font-size: clamp(2rem, 5vw, 3.4rem);
+    background: linear-gradient(100deg, var(--parchment) 0%, var(--gold-pale) 40%, var(--gold) 70%);
+    -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 18px;
+  }
+  .page-lede { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.15rem; color: var(--parchment-dim); }
+
+  .faq-list { position: relative; z-index: 2; max-width: 780px; margin: 0 auto; padding: 0 28px 110px; }
+
+  .faq-item {
+    border-bottom: 1px solid var(--line);
+    opacity: 0; transform: translateY(16px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .faq-item.in-view { opacity: 1; transform: translateY(0); }
+
+  .faq-q {
+    width: 100%;
+    background: none; border: none; text-align: left; cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    padding: 22px 4px;
+    font-family: 'Cinzel', serif; font-size: 1rem; color: var(--parchment);
+  }
+  .faq-q:hover { color: var(--gold-pale); }
+  .faq-icon {
+    flex-shrink: 0; width: 22px; height: 22px;
+    border: 1px solid var(--gold); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold); font-size: 0.85rem;
+    transition: transform 0.35s ease;
+  }
+  .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+  .faq-a {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.4s ease;
+    opacity: 0;
+    font-size: 0.92rem; color: var(--parchment-dim);
+    padding: 0 4px;
+  }
+  .faq-item.open .faq-a {
+    max-height: 240px;
+    opacity: 1;
+    padding: 0 4px 24px;
+  }
+
+  .faq-cta {
+    position: relative; z-index: 2; max-width: 780px; margin: 0 auto; padding: 0 28px 100px; text-align: center;
+  }
+  .faq-cta p { font-size: 0.92rem; color: var(--parchment-dim); margin-bottom: 20px; }
+  .btn-secondary {
+    display: inline-block; padding: 13px 28px; border: 1px solid var(--line); border-radius: 2px;
+    font-size: 0.9rem; font-weight: 600; letter-spacing: 0.03em;
+    transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  }
+  .btn-secondary:hover { border-color: var(--gold); color: var(--gold-pale); transform: translateY(-2px); }
+
+  footer { position: relative; z-index: 2; border-top: 1px solid var(--line); padding: 44px 28px 36px; text-align: center; }
+  footer .brand { display: block; margin-bottom: 10px; }
+  footer .links { display: flex; gap: 24px; justify-content: center; margin-bottom: 18px; font-size: 0.85rem; color: var(--parchment-dim); flex-wrap: wrap; }
+  footer .links a:hover { color: var(--gold-pale); }
+  footer .fine { font-size: 0.76rem; color: var(--parchment-dim); opacity: 0.7; }
+</style>
+</head>
+<body>
+
+<div class="bg-field"></div>
+
+<header>
+  <nav>
+    <span class="brand">REIGNMC</span>
+    <div class="nav-links">
+      <a href="index.html#world">The World</a>
+      <a href="index.html#features">Systems</a>
+      <a href="rules.html">Rules</a>
+      <a href="recipes.html">Recipes</a>
+      <a href="faq.html">FAQ</a>
+      <a href="store.html">Store</a>
+      <a href="http://reignmc-map.playwn.co:5521" target="_blank" rel="noopener">Map</a>
+    </div>
+    <a class="nav-cta" href="index.html#join">Join Now</a>
+  </nav>
+</header>
+
+<div class="page-head">
+  <span class="eyebrow">Before You Ask in Discord</span>
+  <h1 class="title">Frequently Asked Questions</h1>
+  <p class="page-lede">Answers to what new players ask most, before their first night on Aegrath.</p>
+</div>
+
+<div class="faq-list" id="faq-list">
+
+  <div class="faq-item">
+    <button class="faq-q"><span>What Minecraft version do I need to join?</span><span class="faq-icon">+</span></button>
+    <div class="faq-a">ReignMC runs on Paper 1.21.x for Java players, with Bedrock support via Geyser and Floodgate — so both Java and Bedrock players can join the same world.</div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-q"><span>Is the server whitelisted or open to everyone?</span><span class="faq-icon">+</span></button>
+    <div class="faq-a">Currently in beta and open to join — placeholder answer, update this once whitelist policy for full launch is decided.</div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-q"><span>How do I found or join a town?</span><span class="faq-icon">+</span></button>
+    <div class="faq-a">Towny lets you found a town with <code>/town new</code> once you've got enough in-game currency, or join an existing one if a mayor invites you. Full commands are covered in-game via <code>/towny help</code>.</div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-q"><span>Is PvP forced, or can I play peacefully?</span><span class="faq-icon">+</span></button>
+    <div class="faq-a">PvP is restricted to outside spawn and neutral zones, and raiding requires an active war declaration — so peaceful players can build and trade without being ambushed.</div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-q"><span>When does the full lore get released?</span><span class="faq-icon">+</span></button>
+    <div class="faq-a">The full story of the First Sundering unlocks once the server hits a set active-player threshold. Until then, only fragments surface through in-world events.</div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-q"><span>Does the store give pay-to-win advantages?</span><span class="faq-icon">+</span></button>
+    <div class="faq-a">Placeholder answer — clarify your store's stance here once it's live (e.g. cosmetic-only, or which perks are gameplay-affecting).</div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-q"><span>How do I report a bug or a rule-breaker?</span><span class="faq-icon">+</span></button>
+    <div class="faq-a">Bug reports go through the bug bounty program in Discord; rule violations should be reported to staff with evidence (screenshots or coordinates) in a support ticket.</div>
+  </div>
+
+</div>
+
+<div class="faq-cta">
+  <p>Still have a question that's not covered here?</p>
+  <a class="btn-secondary" href="https://discord.gg/" target="_blank" rel="noopener">Ask in Discord</a>
+</div>
+
+<footer>
+  <span class="brand">REIGNMC</span>
+  <div class="links">
+    <a href="index.html">Home</a>
+    <a href="rules.html">Rules</a>
+    <a href="recipes.html">Recipes</a>
+    <a href="store.html">Store</a>
+    <a href="http://reignmc-map.playwn.co:5521" target="_blank" rel="noopener">Live Map</a>
+    <a href="https://discord.gg/" target="_blank" rel="noopener">Discord</a>
+  </div>
+  <p class="fine">ReignMC is an independent community server and is not affiliated with Mojang or Microsoft.</p>
+</footer>
+
+<script>
+  (function () {
+    const items = document.querySelectorAll('.faq-item');
+
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) { entry.target.classList.add('in-view'); io.unobserve(entry.target); }
+        });
+      }, { threshold: 0.1 });
+      items.forEach(i => io.observe(i));
+    } else {
+      items.forEach(i => i.classList.add('in-view'));
+    }
+
+    items.forEach(item => {
+      const btn = item.querySelector('.faq-q');
+      btn.addEventListener('click', () => {
+        const isOpen = item.classList.contains('open');
+        items.forEach(i => i.classList.remove('open'));
+        if (!isOpen) item.classList.add('open');
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>
