@@ -29,7 +29,7 @@
       var(--void);
   }
 
-  header { position: sticky; top: 0; z-index: 50; background: rgba(10,7,16,0.8); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  header { position: sticky; top: 0; z-index: 50; background: transparent; border-bottom: none; }
   nav { max-width: 1180px; margin: 0 auto; padding: 18px 28px; display: flex; align-items: center; justify-content: space-between; }
   .brand {
     font-family: 'Cinzel', serif; font-weight: 700; font-size: 1.25rem; letter-spacing: 0.06em;
@@ -111,6 +111,51 @@
   footer .links { display: flex; gap: 24px; justify-content: center; margin-bottom: 18px; font-size: 0.85rem; color: var(--parchment-dim); flex-wrap: wrap; }
   footer .links a:hover { color: var(--gold-pale); }
   footer .fine { font-size: 0.76rem; color: var(--parchment-dim); opacity: 0.7; }
+
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 60;
+  }
+  .nav-toggle span {
+    width: 22px; height: 2px;
+    background: var(--gold);
+    display: block;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+  }
+  .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-menu {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%; left: 0; right: 0;
+    background: var(--void);
+    border-bottom: 1px solid var(--line);
+    padding: 8px 28px 20px;
+    z-index: 55;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+    color: var(--parchment-dim);
+    font-size: 0.95rem;
+  }
+  .mobile-menu a:last-child { border-bottom: none; }
+
+  @media (max-width: 820px) {
+    .nav-links { display: none; }
+    .nav-toggle { display: flex; }
+  }
 </style>
 </head>
 <body>
@@ -129,8 +174,21 @@
       <a href="store.html">Store</a>
       <a href="http://reignmc-map.playwn.co:5521" target="_blank" rel="noopener">Map</a>
     </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
     <a class="nav-cta" href="index.html#join">Join Now</a>
   </nav>
+  <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html#world">The World</a>
+      <a href="index.html#features">Systems</a>
+      <a href="rules.html">Rules</a>
+      <a href="recipes.html">Recipes</a>
+      <a href="faq.html">FAQ</a>
+      <a href="store.html">Store</a>
+      <a href="http://reignmc-map.playwn.co:5521" target="_blank" rel="noopener">Map</a>
+    </div>
+
 </header>
 
 <div class="page-head">
@@ -148,7 +206,7 @@
 
   <div class="faq-item">
     <button class="faq-q"><span>Is the server whitelisted or open to everyone?</span><span class="faq-icon">+</span></button>
-    <div class="faq-a">Currently in beta and open to join — placeholder answer, update this once whitelist policy for full launch is decided.</div>
+    <div class="faq-a">The server is open to everyone — no whitelist required, just connect and start playing.</div>
   </div>
 
   <div class="faq-item">
@@ -158,7 +216,7 @@
 
   <div class="faq-item">
     <button class="faq-q"><span>Is PvP forced, or can I play peacefully?</span><span class="faq-icon">+</span></button>
-    <div class="faq-a">PvP is restricted to outside spawn and neutral zones, and raiding requires an active war declaration — so peaceful players can build and trade without being ambushed.</div>
+    <div class="faq-a">PvP is not restricted outside of spawn. The one exception: players under 10 hours of playtime can't be attacked unless they've started a war themselves — so brand-new players get a grace period to get settled.</div>
   </div>
 
   <div class="faq-item">
@@ -168,7 +226,7 @@
 
   <div class="faq-item">
     <button class="faq-q"><span>Does the store give pay-to-win advantages?</span><span class="faq-icon">+</span></button>
-    <div class="faq-a">Placeholder answer — clarify your store's stance here once it's live (e.g. cosmetic-only, or which perks are gameplay-affecting).</div>
+    <div class="faq-a">Not at all — store packages are either cosmetics or support ranks. Nothing sold gives a gameplay or combat advantage.</div>
   </div>
 
   <div class="faq-item">
@@ -180,7 +238,7 @@
 
 <div class="faq-cta">
   <p>Still have a question that's not covered here?</p>
-  <a class="btn-secondary" href="https://discord.gg/" target="_blank" rel="noopener">Ask in Discord</a>
+  <a class="btn-secondary" href="https://discord.gg/AgahQnnQfG" target="_blank" rel="noopener">Ask in Discord</a>
 </div>
 
 <footer>
@@ -191,7 +249,7 @@
     <a href="recipes.html">Recipes</a>
     <a href="store.html">Store</a>
     <a href="http://reignmc-map.playwn.co:5521" target="_blank" rel="noopener">Live Map</a>
-    <a href="https://discord.gg/" target="_blank" rel="noopener">Discord</a>
+    <a href="https://discord.gg/AgahQnnQfG" target="_blank" rel="noopener">Discord</a>
   </div>
   <p class="fine">ReignMC is an independent community server and is not affiliated with Mojang or Microsoft.</p>
 </footer>
@@ -222,5 +280,24 @@
   })();
 </script>
 
+<script>
+  (function () {
+    const toggle = document.getElementById('navToggle');
+    const menu = document.getElementById('mobileMenu');
+    if (!toggle || !menu) return;
+    toggle.addEventListener('click', () => {
+      const isOpen = menu.classList.toggle('open');
+      toggle.classList.toggle('open', isOpen);
+      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+    menu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        menu.classList.remove('open');
+        toggle.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  })();
+</script>
 </body>
 </html>
