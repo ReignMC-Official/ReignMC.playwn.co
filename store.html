@@ -42,7 +42,7 @@
 
   header {
     position: relative; z-index: 2;
-    border-bottom: 1px solid var(--line);
+    border-bottom: none;
   }
   nav {
     max-width: 1180px; margin: 0 auto; padding: 18px 28px;
@@ -114,6 +114,51 @@
     color: var(--parchment-dim);
     opacity: 0.7;
   }
+
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 60;
+  }
+  .nav-toggle span {
+    width: 22px; height: 2px;
+    background: var(--gold);
+    display: block;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+  }
+  .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-menu {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%; left: 0; right: 0;
+    background: var(--void);
+    border-bottom: 1px solid var(--line);
+    padding: 8px 28px 20px;
+    z-index: 55;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+    color: var(--parchment-dim);
+    font-size: 0.95rem;
+  }
+  .mobile-menu a:last-child { border-bottom: none; }
+
+  @media (max-width: 700px) {
+    .nav-links { display: none; }
+    .nav-toggle { display: flex; }
+  }
 </style>
 </head>
 <body>
@@ -133,7 +178,21 @@
       <a href="store.html">Store</a>
       <a href="http://reignmc-map.playwn.co:5521" target="_blank" rel="noopener">Map</a>
     </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
+  <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html#world">The World</a>
+      <a href="index.html#features">Systems</a>
+      <a href="index.html#lore">Lore</a>
+      <a href="rules.html">Rules</a>
+      <a href="recipes.html">Recipes</a>
+      <a href="faq.html">FAQ</a>
+      <a href="store.html">Store</a>
+      <a href="http://reignmc-map.playwn.co:5521" target="_blank" rel="noopener">Map</a>
+    </div>
+
 </header>
 
 <main>
@@ -150,5 +209,24 @@
   ReignMC is an independent community server and is not affiliated with Mojang or Microsoft.
 </footer>
 
+<script>
+  (function () {
+    const toggle = document.getElementById('navToggle');
+    const menu = document.getElementById('mobileMenu');
+    if (!toggle || !menu) return;
+    toggle.addEventListener('click', () => {
+      const isOpen = menu.classList.toggle('open');
+      toggle.classList.toggle('open', isOpen);
+      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+    menu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        menu.classList.remove('open');
+        toggle.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  })();
+</script>
 </body>
 </html>
