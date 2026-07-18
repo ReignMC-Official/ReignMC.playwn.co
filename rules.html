@@ -45,9 +45,8 @@
 
   header {
     position: sticky; top: 0; z-index: 50;
-    background: rgba(10,7,16,0.8);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--line);
+    background: transparent;
+    border-bottom: none;
   }
   nav {
     max-width: 1180px; margin: 0 auto; padding: 18px 28px;
@@ -156,6 +155,51 @@
   footer .links { display: flex; gap: 24px; justify-content: center; margin-bottom: 18px; font-size: 0.85rem; color: var(--parchment-dim); flex-wrap: wrap; }
   footer .links a:hover { color: var(--gold-pale); }
   footer .fine { font-size: 0.76rem; color: var(--parchment-dim); opacity: 0.7; }
+
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 60;
+  }
+  .nav-toggle span {
+    width: 22px; height: 2px;
+    background: var(--gold);
+    display: block;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+  }
+  .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-menu {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%; left: 0; right: 0;
+    background: var(--void);
+    border-bottom: 1px solid var(--line);
+    padding: 8px 28px 20px;
+    z-index: 55;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+    color: var(--parchment-dim);
+    font-size: 0.95rem;
+  }
+  .mobile-menu a:last-child { border-bottom: none; }
+
+  @media (max-width: 760px) {
+    .nav-links { display: none; }
+    .nav-toggle { display: flex; }
+  }
 </style>
 </head>
 <body>
@@ -175,8 +219,22 @@
       <a href="store.html">Store</a>
       <a href="http://reignmc-map.playwn.co:5521" target="_blank" rel="noopener">Map</a>
     </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
     <a class="nav-cta" href="index.html#join">Join Now</a>
   </nav>
+  <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html#world">The World</a>
+      <a href="index.html#features">Systems</a>
+      <a href="index.html#lore">Lore</a>
+      <a href="rules.html">Rules</a>
+      <a href="recipes.html">Recipes</a>
+      <a href="faq.html">FAQ</a>
+      <a href="store.html">Store</a>
+      <a href="http://reignmc-map.playwn.co:5521" target="_blank" rel="noopener">Map</a>
+    </div>
+
 </header>
 
 <div class="page-head">
@@ -188,104 +246,294 @@
 <div class="rules-layout">
 
   <nav class="toc" aria-label="Rule sections">
-    <a href="#general-conduct">I. General Conduct</a>
-    <a href="#building-claims">II. Building &amp; Claims</a>
-    <a href="#towny-nations">III. Towny &amp; Nations</a>
-    <a href="#pvp-raiding">IV. PvP &amp; Raiding</a>
-    <a href="#chat-communication">V. Chat &amp; Communication</a>
-    <a href="#economy-trading">VI. Economy &amp; Trading</a>
-    <a href="#punishment-tiers">VII. Punishment Tiers</a>
+    <a href="#general">1. General Guidelines</a>
+    <a href="#behavior">2. User Behavior</a>
+    <a href="#towny">3. Towny</a>
+    <a href="#naming">4. Naming</a>
+    <a href="#shops">5. Shops</a>
+    <a href="#tickets">6. Tickets</a>
+    <a href="#punishments">7. Punishments</a>
+    <a href="#war">8. War &amp; Raiding</a>
+    <a href="#additional">Additional Info</a>
   </nav>
 
   <div class="articles">
 
-    <article class="rule-section" id="general-conduct">
-      <span class="rule-num">Section I</span>
-      <h2>General Conduct</h2>
+    <article class="rule-section" id="general">
+      <span class="rule-num">Section 1</span>
+      <h2>General Guidelines</h2>
+
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:22px 0 12px;">1.1 — Use of modifications</h3>
+      <p style="color:var(--parchment-dim); font-size:0.92rem; margin-bottom:14px;">Any hacked/cheat client, program, or modification that gives you an advantage over other players is not allowed.</p>
+      <p style="color:var(--parchment); font-size:0.9rem; margin-bottom:8px;"><strong>Not allowed:</strong></p>
       <ul class="rule-list">
-        <li><strong>No hacked clients or exploits.</strong> X-ray texture packs, kill-aura, fly hacks, and duplication bugs are bannable regardless of intent.</li>
-        <li><strong>No harassment or hate speech.</strong> Zero tolerance for slurs, targeted harassment, or discriminatory content in any channel — in-game or Discord.</li>
-        <li><strong>No real-world doxxing or threats.</strong> Sharing someone's personal information or threatening real-world harm results in an immediate permanent ban.</li>
-        <li><strong>Respect staff decisions.</strong> Appeals go through the proper channel — arguing with staff in public chat won't overturn anything.</li>
-        <li><strong>One account per player</strong> unless a staff member has approved an alt for a specific reason.</li>
+        <li>Resource packs that reveal blocks/ores (x-ray) beyond the default Minecraft resource pack.</li>
+        <li>Mods or map modifications (e.g. mini-maps) that show caves, ores, or players beyond what our live map (BlueMap) shows.</li>
+        <li>Cheat clients or mods giving unfair advantages — combat hacks, fly, auto-building (e.g. Litematica with printer), Schematica.</li>
+        <li>Autoclicking in any form, including F3+T or other creative workarounds.</li>
+        <li>Duping in any way.</li>
+        <li>Cheating to gain mcMMO levels — any AFK or non-manual method.</li>
       </ul>
-      <div class="rule-note">Staff reserve the right to act on conduct that damages the community even if it isn't explicitly listed here.</div>
+      <p style="color:var(--parchment); font-size:0.9rem; margin:16px 0 8px;"><strong>Allowed:</strong></p>
+      <ul class="rule-list">
+        <li>Optifine, performance mods, and aesthetic mods (resource packs, shaders).</li>
+        <li>Distant Horizons, BobbyMod.</li>
+        <li>Fullbright.</li>
+        <li>Mini-maps that don't show more than our live map already provides.</li>
+        <li>EasyPlace with Litematica.</li>
+        <li>Freecam for screenshots and video (fair play only).</li>
+      </ul>
+
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:28px 0 12px;">1.2 — Alternate accounts</h3>
+      <ul class="rule-list">
+        <li>One Minecraft account per person. Alt accounts are prohibited, as is using someone else's account.</li>
+        <li>If multiple people share a household or you want to switch your main account, open a ticket in our Discord in advance for an exception.</li>
+        <li>Believe you were banned incorrectly for alting? Open a ticket to request a review.</li>
+      </ul>
+      <div class="rule-note">Abusive use of alternate accounts can lead to a permanent ban of all related accounts.</div>
+
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:28px 0 12px;">1.3 — Circumventing punishment</h3>
+      <ul class="rule-list">
+        <li>Avoiding or bypassing a punishment is not allowed. Circumventing with alt accounts may ban all related accounts.</li>
+        <li>Using server chat while muted or banned is not permitted.</li>
+      </ul>
+
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:28px 0 12px;">1.4 — Knowingly assisting in rule breaking / exploiting bugs</h3>
+      <ul class="rule-list">
+        <li>Assisting, participating in, or benefiting from another player breaking the rules may be treated as if you committed the act yourself.</li>
+        <li>Discovered an exploit, glitch, or bug? Report it immediately — any gain, even accidental, must be disclosed. Punishment scales with severity if you don't.</li>
+        <li>Coordinating or manipulating the bounty system for personal or shared gain (e.g. arranging to be killed to collect your own bounty) is not allowed.</li>
+      </ul>
+
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:28px 0 12px;">1.5 — Disruption of services</h3>
+      <ul class="rule-list">
+        <li>Intentionally lagging the server, interfering with staff operations, DOS/DDOS attacks, or spamming/flooding support tickets is not allowed and is punished by severity.</li>
+        <li>Severe disruption (DDOS) will be reported to the proper authorities.</li>
+        <li>Mass-spawning entities (boats, minecarts, dropped items) is not allowed — offending entities will be automatically despawned.</li>
+      </ul>
+
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:28px 0 12px;">1.6 — Personal information</h3>
+      <p style="color:var(--parchment-dim); font-size:0.92rem;">Sharing another player's personal information (doxxing) is never allowed — full names, real-life photos/videos, phone numbers, social profiles, contact details, or home/school/work locations. Using or threatening to use someone's personal information is strictly prohibited under all circumstances.</p>
+
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:28px 0 12px;">1.7 — Sale of items</h3>
+      <p style="color:var(--parchment-dim); font-size:0.92rem;">Selling, renting, trading, or offering in-game items or services to other players for real-world money is not allowed.</p>
+
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:28px 0 12px;">1.8 — Farms and automatic contraptions</h3>
+      <p style="color:var(--parchment-dim); font-size:0.92rem;">Ore farms (including gold) are not allowed. Performance-heavy redstone contraptions may be disabled or removed if they cause lag. Stasis chambers or any contraption that force-loads or keeps chunks loaded are not allowed.</p>
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:28px 0 12px;">1.9 — Mob farms &amp; redstone farms</h3>
+      <p style="color:var(--parchment-dim); font-size:0.92rem;">Mob farms, mob spawner farms, and redstone farms of any kind must be built underground — they are not allowed to be visible on the live map. Farms found on the surface or otherwise visible on the map may be removed without warning.</p>
     </article>
 
-    <article class="rule-section" id="building-claims">
-      <span class="rule-num">Section II</span>
-      <h2>Building &amp; Claims</h2>
+    <article class="rule-section" id="behavior">
+      <span class="rule-num">Section 2</span>
+      <h2>User Behavior</h2>
+
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:22px 0 12px;">2.1 — Sharing of media / advertising</h3>
       <ul class="rule-list">
-        <li><strong>Claim before you build.</strong> Unclaimed builds outside town limits can be broken down without warning.</li>
-        <li><strong>No griefing inside claims.</strong> If Towny protection is blocking you, that's the system working as intended — find another plot.</li>
-        <li><strong>No offensive builds.</strong> Structures depicting hate symbols, slurs, or explicit content will be removed and may result in a ban.</li>
-        <li><strong>Lag-inducing builds</strong> (large redstone farms, entity-heavy contraptions) may be asked to be modified or relocated if they impact server performance.</li>
-        <li><strong>Abandoned claims</strong> (no login for 60+ days) may be reclaimed by the town or released back to the wild.</li>
+        <li>Shared media (links, text, Discord invites, videos/streams) must relate to ReignMC — town showcases, gameplay videos, and similar are fine.</li>
+        <li>Posting malicious links or media in any form is not allowed.</li>
+        <li>Advertising other servers, or encouraging players to leave ReignMC for another community (sharing IPs, Discord links, server names), is not allowed.</li>
+      </ul>
+
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:28px 0 12px;">2.2 — Chat spam</h3>
+      <p style="color:var(--parchment-dim); font-size:0.92rem;">Repeatedly and swiftly sending messages is not allowed — this includes all-caps spam, duplicated text, copypastas, excessive emojis, images, GIFs, links, or mass pings.</p>
+
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:28px 0 12px;">2.3 — Toxic behavior</h3>
+      <ul class="rule-list">
+        <li>Harassment or bullying of players or staff — targeted insults, bypassing /ignore, repeated unprovoked killings, or excessive town camping.</li>
+        <li>Repeated demands to staff or intentionally provoking a reaction. Concerns about staff must go through a support ticket, not public confrontation.</li>
+        <li>Inciting violence or toxicity, or messages with considerable profanity.</li>
+      </ul>
+
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:28px 0 12px;">2.4 — Unwanted behavior</h3>
+      <p style="color:var(--parchment-dim); font-size:0.92rem; margin-bottom:10px;">Punishment varies with severity and history. Includes, but isn't limited to:</p>
+      <ul class="rule-list">
+        <li>Bypassing the chat filter.</li>
+        <li>Discriminatory language or hate speech toward race, nationality, gender, sexual orientation, religion, age, or other identities.</li>
+        <li>Encouraging self-harm or violence toward players.</li>
+        <li>Nazism or extremist symbolism.</li>
+        <li>Sexual content or other explicit topics that don't fit the server environment.</li>
+        <li>Any inappropriate interaction toward another player.</li>
+      </ul>
+      <div class="rule-note">This extends to builds, signs, banners, named items, books, usernames, nicknames, skins, and content referencing a banned player.</div>
+
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:28px 0 12px;">2.4.1 — Event disruption</h3>
+      <p style="color:var(--parchment-dim); font-size:0.92rem;">Players may not intentionally disrupt server events — sounding horns, unauthorized PvP, throwing invisibility potions, or other disruptive behavior during a live event.</p>
+
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:28px 0 12px;">2.5 — Impersonation, defamation &amp; disinformation</h3>
+      <ul class="rule-list">
+        <li>Impersonating another player or staff member — through username, nickname, town/nation name, or skin — is not allowed. Impersonation causing real harm or disruption may lead to a permanent ban.</li>
+        <li>Spreading false or misleading claims that damage a player's real-life reputation is not allowed, including baseless serious allegations in public chat. Legitimate concerns go through a ticket with evidence — false accusations will be punished.</li>
+        <li>Fabricating or altering evidence, submitting intentionally false tickets, faking screenshots, or spreading false rumors about the server, staff, or community is not allowed.</li>
+      </ul>
+
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:28px 0 12px;">2.6 — Chat</h3>
+      <p style="color:var(--parchment-dim); font-size:0.92rem;">English is required in global chat. Other languages are fine in town chat, nation chat, or private messages.</p>
+    </article>
+
+    <article class="rule-section" id="towny">
+      <span class="rule-num">Section 3</span>
+      <h2>Towny</h2>
+
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:22px 0 12px;">3.1 — Town claims</h3>
+      <ul class="rule-list">
+        <li>Towns may not block another town's expansion through claim placement (claim blocking) — staff determine these cases, and older claims generally take priority.</li>
+        <li>Claims should expand in a roughly square or circular shape. Thin "claim arms" or spaghetti-shaped claims stretching in one direction aren't allowed unless a town genuinely has no other space to expand into — width alone doesn't make a claim acceptable if it's mostly empty land used to block others.</li>
+        <li>Towns may not leave pockets of unclaimed chunks inside their own borders (hollow/donut claiming).</li>
+      </ul>
+
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:28px 0 12px;">3.2 — Proximity grief</h3>
+      <ul class="rule-list">
+        <li>Griefing the wilderness next to a town is not allowed outside of an active war — staff may roll back damage. Towns near old ruins may request the surrounding area be restored.</li>
+        <li>Resource gathering (e.g. sand) should happen no closer than 6 chunks from a town.</li>
+        <li>Stealing from chests in the wilderness near a town is allowed.</li>
+      </ul>
+
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:28px 0 12px;">3.3 — Extreme grief</h3>
+      <p style="color:var(--parchment-dim); font-size:0.92rem; margin-bottom:10px;">Large-scale lava structures (lava casts, cobble monsters, lava/water curtains, craters) in the wilderness or within claims are not allowed, nor is griefing ice roads or minecart railways.</p>
+      <p style="color:var(--parchment-dim); font-size:0.92rem;"><strong style="color:var(--parchment);">3.3b —</strong> Firing explosive or incendiary projectiles into towns (fireballs, fire charges, TNT cannons, TNT minecarts) is forbidden outside of an active war.</p>
+
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:28px 0 12px;">3.4 — World modifications</h3>
+      <p style="color:var(--parchment-dim); font-size:0.92rem;">Creating artificial islands is not allowed; extending an existing island may be permitted depending on size, at staff discretion. Removing or majorly altering crafted landmarks of Aegrath — draining rivers or lakes, large-scale terraforming of the nine continents — is not allowed, to preserve the map as it was built.</p>
+
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:28px 0 12px;">3.5 — Spawn trapping or killing</h3>
+      <ul class="rule-list">
+        <li>Trapping or killing players within a town or nation's spawn chunk and the one-chunk radius around it (lava, drop pits, toggling PvP) is not allowed — this excludes wilderness chunks. PvP cannot be enabled in that radius outside of an arena or wilderness.</li>
+        <li>Preventing players from teleporting out of a town (e.g. wither rose traps) is not allowed anywhere within the town.</li>
+        <li><strong>New players are protected for their first 10 hours of playtime</strong> — you cannot attack a player under 10 hours of playtime unless they've started a war themselves.</li>
+      </ul>
+      <p style="color:var(--parchment); font-size:0.9rem; margin:14px 0 8px;"><strong>Allowed:</strong></p>
+      <ul class="rule-list">
+        <li>Kills within the radius if the player was already combat-tagged outside it.</li>
+        <li>Kills within a PvP arena (no item drops).</li>
+        <li>Traps outside the radius or in the wilderness, as long as they don't block teleportation out.</li>
+        <li>Kills in the wilderness, and kills on players already outlawed.</li>
+      </ul>
+      <div class="rule-note">Gear and items are not always refunded by staff, to prevent duplication exploits. Non-arena PvP plots may not border arena plots.</div>
+
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:28px 0 12px;">3.6 — Portal trapping</h3>
+      <p style="color:var(--parchment-dim); font-size:0.92rem;">Blocking a portal to trap a player's inventory or chat access is not allowed — leave at least one open block next to every portal.</p>
+
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:28px 0 12px;">3.7 — Map art</h3>
+      <p style="color:var(--parchment-dim); font-size:0.92rem;">Map art may not contain sexual imagery or anything that breaks Section 2. Canvases can be placed anywhere on Aegrath. Re-selling signed art of active players requires their permission; art from players inactive 60+ days may be freely resold or copied.</p>
+
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:28px 0 12px;">3.8 — Stealing / insiding / raiding / scamming</h3>
+      <p style="color:var(--parchment-dim); font-size:0.92rem; margin-bottom:10px;">Mayors are responsible for managing town permissions. Stealing and scamming between players are allowed on the server. Insiding — griefing or stealing by a player who was given trust within a town — may have builds rolled back, but chests/items will not be restored.</p>
+      <div class="rule-note">Mayors stealing from their own residents or embassies is unethical but not staff-enforced — expect it to cost trust, residents, and your town's reputation.</div>
+
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:28px 0 12px;">3.9 — Sniping</h3>
+      <p style="color:var(--parchment-dim); font-size:0.92rem;">Joining an about-to-fall town or nation purely to loot or inherit it, without genuine intent to settle and maintain it, is not allowed. If you intend to permanently rebuild and maintain it, open a ticket in advance for an exception — staff will monitor to confirm genuine settlement.</p>
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:28px 0 12px;">3.10 — Town autonomy &amp; war diplomacy</h3>
+      <ul class="rule-list">
+        <li>It is up to each town's mayor to set additional rules for their own town — staff won't intervene in internal town policy as long as it doesn't violate the server rules above.</li>
+        <li>If another town or nation declares war on yours, you're not on your own — you can negotiate directly with them, ask nearby towns or nations for help, or form a formal alliance before or during the conflict.</li>
       </ul>
     </article>
 
-    <article class="rule-section" id="towny-nations">
-      <span class="rule-num">Section III</span>
-      <h2>Towny &amp; Nations</h2>
+    <article class="rule-section" id="naming">
+      <span class="rule-num">Section 4</span>
+      <h2>Naming</h2>
+
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:22px 0 12px;">4.1 — Nation names</h3>
+      <p style="color:var(--parchment-dim); font-size:0.92rem; margin-bottom:10px;">Nation names should fit the tone and lore of Aegrath. They must:</p>
       <ul class="rule-list">
-        <li><strong>Mayors are responsible</strong> for their town's residents. Repeated rule violations by residents reflect on town standing.</li>
-        <li><strong>Nation wars must be declared</strong> through the proper Towny war mechanic — no sneak-attacking allies mid-truce.</li>
-        <li><strong>No exploiting town claim mechanics</strong> to surround or lock out another town from expansion unfairly.</li>
-        <li><strong>Diplomacy is binding.</strong> Alliances and treaties formed in-game are expected to be honored; breaking one isn't a bannable offense, but it's fair game for other nations to respond to in-character.</li>
+        <li>Be written in English characters (no accents or special symbols).</li>
+        <li>Not violate Section 2.</li>
+        <li>Be unique — not already in use by another town or nation.</li>
+        <li>Avoid modern real-world brand names or out-of-setting references that break immersion.</li>
       </ul>
+      <div class="rule-note">Naming cases are decided by staff. Violations may result in a forced rename without refund, with harsher punishment for repeat offenses.</div>
+
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:28px 0 12px;">4.2 — Town names</h3>
+      <p style="color:var(--parchment-dim); font-size:0.92rem;">Town names must not violate Section 2 — for example, "anti-(playername)" or "anti-(nation/town)" names are not tolerated, nor are names based on real-world political parties. Names must use English characters and be unique.</p>
+
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:28px 0 12px;">4.3 — Naming (general)</h3>
+      <p style="color:var(--parchment-dim); font-size:0.92rem;">All named items and entities, usernames, titles, nicknames, and Discord accounts must comply with Section 2, including plot names and town cultures. Staff may rename or remove non-compliant names in addition to applying punishment.</p>
     </article>
 
-    <article class="rule-section" id="pvp-raiding">
-      <span class="rule-num">Section IV</span>
-      <h2>PvP &amp; Raiding</h2>
-      <ul class="rule-list">
-        <li><strong>PvP is enabled</strong> outside of spawn and designated safe zones (Elysian is always neutral ground).</li>
-        <li><strong>Raiding requires an active war declaration</strong> against the target nation — raiding without one is treated as griefing.</li>
-        <li><strong>No spawn killing or safe-zone camping</strong> to bait players out of protected areas.</li>
-        <li><strong>Combat logging</strong> (disconnecting to avoid a fight) may result in a temporary PvP-related restriction.</li>
-      </ul>
+    <article class="rule-section" id="shops">
+      <span class="rule-num">Section 5</span>
+      <h2>Shops</h2>
+
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:22px 0 12px;">5.1 — Chest shops in the wilderness</h3>
+      <p style="color:var(--parchment-dim); font-size:0.92rem;">ChestShops in the wilderness are not allowed and may be removed at any time.</p>
+
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:28px 0 12px;">5.2 — Shop traps or kills</h3>
+      <p style="color:var(--parchment-dim); font-size:0.92rem;">Trapping or attempting to kill players within shop chunks is prohibited — shops must stay safe to trade in. PvP cannot be enabled in shop chunks. Gear and items are not always refunded, to prevent duplication.</p>
     </article>
 
-    <article class="rule-section" id="chat-communication">
-      <span class="rule-num">Section V</span>
-      <h2>Chat &amp; Communication</h2>
+    <article class="rule-section" id="tickets">
+      <span class="rule-num">Section 6</span>
+      <h2>Tickets</h2>
+
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:22px 0 12px;">6.1 — Ticket expectations</h3>
       <ul class="rule-list">
-        <li><strong>English only in global chat</strong> so staff can moderate effectively; other languages are fine in DMs or town chat.</li>
-        <li><strong>No spamming, advertising, or excessive caps.</strong></li>
-        <li><strong>No impersonating staff</strong> or claiming false authority in chat.</li>
-        <li><strong>Keep political and religious debate out of public channels</strong> — take it to DMs if you want to discuss it.</li>
+        <li>Tickets must be submitted by the affected player, not a proxy, unless extraordinary circumstances apply.</li>
+        <li>One ticket per issue. State your case clearly and include evidence — coordinates, video, or screenshots. Claims without evidence may not be resolvable.</li>
+        <li>Don't ping staff unless asked to. Remain patient and respectful — staff are volunteers who prioritize urgent issues first.</li>
+        <li>Toxic or abusive language toward staff may get your ticket closed without further reply.</li>
+        <li>Fake claims or tickets made to get someone punished through exaggeration or retaliation may result in a ban.</li>
+        <li>A ticket is required to dispute a claim or appeal a punishment.</li>
       </ul>
+
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:28px 0 12px;">6.2 — Appropriate use of the support Discord</h3>
+      <p style="color:var(--parchment-dim); font-size:0.92rem;">Support channels are for support questions only — appeals must go through a ticket. Using modified Discord clients to access non-public ticket information is not permitted. Ticket contents are confidential and limited to those directly involved.</p>
     </article>
 
-    <article class="rule-section" id="economy-trading">
-      <span class="rule-num">Section VI</span>
-      <h2>Economy &amp; Trading</h2>
-      <ul class="rule-list">
-        <li><strong>No real-money trading</strong> for in-game currency, items, or claims outside of the official store.</li>
-        <li><strong>Scamming another player in a trade</strong> is bannable if proven (screenshots/logs required for a report).</li>
-        <li><strong>Duping items or currency</strong> through any bug is an instant permanent ban, no warning.</li>
-        <li><strong>Shop price manipulation</strong> designed to exploit market mechanics may be reversed by staff.</li>
-      </ul>
-    </article>
+    <article class="rule-section" id="punishments">
+      <span class="rule-num">Section 7</span>
+      <h2>Punishments</h2>
 
-    <article class="rule-section" id="punishment-tiers">
-      <span class="rule-num">Section VII</span>
-      <h2>Punishment Tiers</h2>
-      <p style="color:var(--parchment-dim); font-size:0.92rem; margin-bottom:8px;">Punishments scale with severity and history. Staff may skip tiers for serious first offenses (hacking, doxxing, duping).</p>
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:22px 0 12px;">7.1 — Repeated offenses</h3>
+      <p style="color:var(--parchment-dim); font-size:0.92rem; margin-bottom:8px;">Players who repeatedly break rules within a short window face escalating penalties. Warns expire 90 days after they're issued.</p>
       <table class="tier-table">
-        <thead>
-          <tr><th>Tier</th><th>Example</th><th>Typical Action</th></tr>
-        </thead>
+        <thead><tr><th>Warns (same day)</th><th>Resulting action</th></tr></thead>
         <tbody>
-          <tr><td class="severity-1">Tier 1</td><td>Spam, minor chat disrespect, caps abuse</td><td>Warning → short mute</td></tr>
-          <tr><td>Tier 2</td><td>Repeated Tier 1, minor griefing, unclaimed build destruction</td><td>Temp mute/ban, restitution</td></tr>
-          <tr><td class="severity-3">Tier 3</td><td>Hacked clients, duping, doxxing, hate speech</td><td>Permanent ban</td></tr>
+          <tr><td class="severity-1">2 warns</td><td>3-day temp ban</td></tr>
+          <tr><td>3 warns</td><td>1-day temp ban</td></tr>
+          <tr><td>4 warns</td><td>3-day temp ban</td></tr>
+          <tr><td class="severity-3">5 warns</td><td>Permanent ban</td></tr>
         </tbody>
       </table>
+
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:28px 0 12px;">7.2 — Appeals</h3>
+      <p style="color:var(--parchment-dim); font-size:0.92rem;">All appeals must be submitted by the punished player themselves, through a ticket.</p>
+
+      <h3 style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-pale); margin:28px 0 12px;">7.3 — Banned players</h3>
+      <p style="color:var(--parchment-dim); font-size:0.92rem;">Items from banned accounts cannot be transferred under any circumstances. A town or nation owned by a banned player may only transfer, at their request, to someone who was already a resident or trusted member before the ban.</p>
+    </article>
+
+    <article class="rule-section" id="war">
+      <span class="rule-num">Section 8</span>
+      <h2>War &amp; Raiding</h2>
+      <ul class="rule-list">
+        <li><strong>PvP is enabled</strong> outside of spawn and designated safe zones — Elysian is always neutral ground.</li>
+        <li><strong>Raiding requires an active, declared war</strong> against the target nation — raiding without one is treated as griefing under Section 3.</li>
+        <li><strong>Kill feeding</strong> — intentionally dying or arranging repeated deaths to manipulate war outcomes or bounties — is not allowed.</li>
+        <li><strong>Exploiting bugs or unintended mechanics</strong> to affect a war's outcome is not permitted.</li>
+      </ul>
+      <div class="rule-note">This section covers standard declared-war raiding. If a dedicated siege plugin gets added later (siege towns, siege banners, revolt mechanics), this section will be expanded to match.</div>
     </article>
 
   </div>
 </div>
+
+<section id="additional" style="max-width:900px; margin:0 auto; padding:60px 28px 100px;">
+  <span class="rule-num">Additional Information</span>
+  <h2 style="font-family:'Cinzel',serif; font-size:1.5rem; color:var(--parchment); margin-bottom:18px;">A Few More Things</h2>
+  <ul class="rule-list">
+    <li>Rules are subject to change at any time — it's your responsibility to stay updated.</li>
+    <li>Punishments include mutes, warnings, temporary bans, and permanent bans.</li>
+    <li>Staff may act on behavior not explicitly listed here if it violates the spirit of the rules.</li>
+    <li>Staff reserve the right to issue silent punishments that don't show up in-game, and to not disclose a punishment to others.</li>
+    <li>Temp ban / permanent ban / appeal decisions are made by server staff and moderators — exceptions may apply.</li>
+    <li>"Official mediums" (where evidence and moderation apply) are in-game chats and our Discord server. Evidence from outside these mediums usually can't be used — except for severe cases (doxxing, RMT, hate speech) where evidence from related platforms (nation/town Discords, DMs) may still be used.</li>
+    <li>Purchasable perks may be revoked if subject to abuse or rule-breaking.</li>
+    <li>Inventory or item rollbacks are only granted for victims of glitches, server crashes, or other technical issues.</li>
+  </ul>
+  <div class="rule-note">Rules last updated July 18, 2026.</div>
+</section>
+
 
 <footer>
   <span class="brand">REIGNMC</span>
@@ -295,7 +543,7 @@
     <a href="faq.html">FAQ</a>
     <a href="store.html">Store</a>
     <a href="http://reignmc-map.playwn.co:5521" target="_blank" rel="noopener">Live Map</a>
-    <a href="https://discord.gg/" target="_blank" rel="noopener">Discord</a>
+    <a href="https://discord.gg/AgahQnnQfG" target="_blank" rel="noopener">Discord</a>
   </div>
   <p class="fine">ReignMC is an independent community server and is not affiliated with Mojang or Microsoft.</p>
 </footer>
@@ -319,5 +567,24 @@
   })();
 </script>
 
+<script>
+  (function () {
+    const toggle = document.getElementById('navToggle');
+    const menu = document.getElementById('mobileMenu');
+    if (!toggle || !menu) return;
+    toggle.addEventListener('click', () => {
+      const isOpen = menu.classList.toggle('open');
+      toggle.classList.toggle('open', isOpen);
+      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+    menu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        menu.classList.remove('open');
+        toggle.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  })();
+</script>
 </body>
 </html>
